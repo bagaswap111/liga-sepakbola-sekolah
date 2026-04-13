@@ -6,10 +6,10 @@ services:
     container_name: liga_db
     restart: unless-stopped
     env_file: ./backend/.env
-    environment:
-      POSTGRES_USER: ${DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME:-liga_jateng}
+    # environment:
+      # POSTGRES_USER: ${DB_USER:-postgres}
+      # POSTGRES_PASSWORD: ${DB_PASSWORD}
+      # POSTGRES_DB: ${DB_NAME:-liga_jateng}
     volumes:
       - liga_postgres_data:/var/lib/postgresql/data
     networks:
