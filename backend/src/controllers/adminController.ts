@@ -127,7 +127,7 @@ export const getAllMatches = async (req: AuthRequest, res: Response): Promise<vo
 export const createMatch = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const matchRepo = AppDataSource.getRepository(Match);
-    const match = matchRepo.create(req.body);
+    const match: Match = matchRepo.create(req.body as Match);
     await matchRepo.save(match);
     const saved = await matchRepo.findOne({ where: { id: match.id }, relations: ["homeTeam", "awayTeam"] });
     res.status(201).json(saved);
@@ -175,7 +175,7 @@ export const getAllNewsAdmin = async (req: AuthRequest, res: Response): Promise<
 export const createNews = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const newsRepo = AppDataSource.getRepository(News);
-    const news = newsRepo.create(req.body);
+    const news: News = newsRepo.create(req.body as News);
     if (req.file) news.imageUrl = `/uploads/${req.file.filename}`;
     await newsRepo.save(news);
     res.status(201).json(news);

@@ -1,0 +1,30 @@
+# ============================================================
+# LIGA JATENG SMA - Caddy Config Snippet
+# Tambahkan blok ini ke dalam Caddyfile yang sudah ada di VPS
+# (biasanya di /etc/caddy/Caddyfile atau di volume Caddy)
+#
+# Ganti: liga.namadomain.com → subdomain/domain kamu
+# ============================================================
+
+liga.namadomain.com {
+    # Frontend (React SPA)
+    handle {
+        reverse_proxy localhost:3200
+    }
+
+    # API ke backend (opsional jika frontend sudah proxy via nginx internal)
+    # handle /api/* {
+    #     reverse_proxy localhost:4200
+    # }
+    # handle /uploads/* {
+    #     reverse_proxy localhost:4200
+    # }
+}
+
+# ============================================================
+# CATATAN:
+# - Port 3200 = liga_frontend container (nginx yg serve React build + proxy /api ke backend)
+# - Port 4200 = liga_backend container (Express API) - tidak perlu diekspos ke Caddy
+#   karena nginx di dalam liga_frontend sudah proxy /api dan /uploads ke backend
+# - Caddy otomatis handle HTTPS (Let's Encrypt) jika domain sudah pointing ke VPS
+# ============================================================

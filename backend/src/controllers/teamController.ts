@@ -63,7 +63,7 @@ export const addPlayer = async (req: AuthRequest, res: Response): Promise<void> 
       return;
     }
 
-    const player = playerRepo.create({
+    const player: Player = playerRepo.create({
       name,
       jerseyNumber: parseInt(jerseyNumber),
       position,

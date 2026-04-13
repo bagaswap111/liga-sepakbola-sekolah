@@ -59,7 +59,7 @@ export const registerTeam = async (req: Request, res: Response): Promise<void> =
     }
 
     const hashed = await bcrypt.hash(password, 12);
-    const newTeam = teamRepo.create({
+    const newTeam: Team = teamRepo.create({
       name: teamName,
       schoolAddress: schoolAddress || "",
       coachName: coachName || "",
@@ -70,7 +70,7 @@ export const registerTeam = async (req: Request, res: Response): Promise<void> =
     });
     await teamRepo.save(newTeam);
 
-    const newUser = userRepo.create({
+    const newUser: User = userRepo.create({
       email,
       password: hashed,
       role: "team",

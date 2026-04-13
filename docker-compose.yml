@@ -3,14 +3,14 @@ version: '3.9'
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: liga_postgres
+    container_name: liga_db
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${DB_USER:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres123}
       POSTGRES_DB: ${DB_NAME:-liga_jateng}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - liga_postgres_data:/var/lib/postgresql/data
     networks:
       - liga_net
     healthcheck:
@@ -27,14 +27,14 @@ services:
     restart: unless-stopped
     env_file: ./backend/.env
     environment:
-      DB_HOST: postgres
+      DB_HOST: liga_db
       DB_PORT: 5432
     volumes:
-      - uploads_data:/app/uploads
+      - liga_uploads:/app/uploads
     ports:
-      - "5000:5000"
+      - "127.0.0.1:4200:5000"
     depends_on:
-      postgres:
+      liga_db:
         condition: service_healthy
     networks:
       - liga_net
@@ -46,15 +46,15 @@ services:
     container_name: liga_frontend
     restart: unless-stopped
     ports:
-      - "80:80"
+      - "127.0.0.1:3200:80"
     depends_on:
       - backend
     networks:
       - liga_net
 
 volumes:
-  postgres_data:
-  uploads_data:
+  liga_postgres_data:
+  liga_uploads:
 
 networks:
   liga_net:
